@@ -1,4 +1,4 @@
-import math
+"""import math
 import statistics
 from typing import Union, List
 
@@ -68,6 +68,6 @@ while True:
             b = float(input("Введите второе число: "))
             result = multiply(a, b)
         elif choice_num == 4:
-            a = float(input("Введите делимое: "))
+            a = float(input("Введите делимое: "))"""
             b = float(input("Введите делитель: "))
             result = divide(a, b)
