@@ -1,73 +1,95 @@
-"""import math
-import statistics
-from typing import Union, List
+import math
 
-def add(a: Union[int, float], b: Union[int, float]) -> float:
-    if not (isinstance(a, (int, float)) and isinstance(b, (int, float))):
-        raise TypeError("Оба аргумента должны быть числами")
+
+def add(a, b):
     return a + b
 
-def subtract(a: Union[int, float], b: Union[int, float]) -> float:
-    if not (isinstance(a, (int, float)) and isinstance(b, (int, float))):
-        raise TypeError("Оба аргумента должны быть числами")
+
+def subtract(a, b):
     return a - b
 
-def multiply(a: Union[int, float], b: Union[int, float]) -> float:
-    if not (isinstance(a, (int, float)) and isinstance(b, (int, float))):
-        raise TypeError("Оба аргумента должны быть числами")
+
+def multiply(a, b):
     return a * b
 
-def divide(a: Union[int, float], b: Union[int, float]) -> float:
-    if not (isinstance(a, (int, float)) and isinstance(b, (int, float))):
-        raise TypeError("Оба аргумента должны быть числами")
+
+def divide(a, b, mode='full'):
     if b == 0:
-        raise ZeroDivisionError("Деление на ноль невозможно")
-    return a / b
+        raise ZeroDivisionError("Деление на ноль!")
+    if mode == 'full':
+        return a / b
+    elif mode == 'remainder':
+        return a % b
+    elif mode == 'integer':
+        return a // b
 
-def power(base: Union[int, float], exponent: Union[int, float]) -> float:
-    if not (isinstance(base, (int, float)) and isinstance(exponent, (int, float))):
-        raise TypeError("Основание и показатель степени должны быть числами")
-    return base ** exponent
 
-def factorial(num: int) -> int:
-    if not isinstance(num, int):
-        raise TypeError("Аргумент должен быть целым числом")
-    if num < 0:
-        raise ValueError("Факториал не определен для отрицательных чисел")
-    return math.factorial(num)
+def power(a, b):
+    return a ** b
 
-print("Калькулятор запущен. Для выхода введите 'exit'.")
 
-while True:
-    print("\nДоступные операции:")
-    print("1. Сложение")
-    print("2. Вычитание")
-    print("3. Умножение")
-    #print("4. Деление")
-    #print("5. Возведение в степень")
-    #print("6. Факториал")
-    #print("7. Синус")
-    #print("8. Медиана")
+def factorial(n):
+    if n < 0:
+        raise ValueError("Факториал не определен для отрицательных чисел.")
+    elif n == 0 or n == 1:
+        return 1
+    else:
+        result = 1
+        for i in range(2, n + 1):
+            result *= i
+        return result
 
-    if not choice.isdigit() or not 1 <= int(choice) <= 8:
-        print("Ошибка: введите число от 1 до 8 или 'exit'.")
-        continue
 
-    try:
-        choice_num = int(choice)
-        if choice_num == 1:
-            a = float(input("Введите первое число: "))
-            b = float(input("Введите второе число: "))
-            result = add(a, b)
-        elif choice_num == 2:
-            a = float(input("Введите первое число: "))
-            b = float(input("Введите второе число: "))
-            result = subtract(a, b)
-        elif choice_num == 3:
-            a = float(input("Введите первое число: "))
-            b = float(input("Введите второе число: "))
-            result = multiply(a, b)
-        elif choice_num == 4:
-            a = float(input("Введите делимое: "))"""
-            b = float(input("Введите делитель: "))
-            result = divide(a, b)
+def sqrt(a):
+    if a < 0:
+        raise ValueError("Квадратный корень.")
+    return math.sqrt(a)
+
+
+
+def main():
+    operations = {
+        "1": {"name": "Сложение", "func": lambda a, b: add(a, b)},
+        "2": {"name": "Вычитание", "func": lambda a, b: subtract(a, b)},
+        "3": {"name": "Умножение", "func": lambda a, b: multiply(a, b)},
+        "4": {"name": "Деление", "func": lambda a, b, m: divide(a, b, m)},
+        "5": {"name": "Возведение в степень", "func": lambda a, b: power(a, b)},
+        "6": {"name": "Факториал", "func": lambda n: factorial(n)},
+        "7": {"name": "Квадратный корень", "func": lambda a: sqrt(a)},
+    }
+
+    while True:
+        print("\nМеню калькулятора:")
+        for key, value in operations.items():
+            print(f"{key}. {value['name']}")
+        print("exit для выхода")
+
+        choice = input("Выберите операцию: ")
+
+        if choice.lower() == 'exit':
+            break
+
+        if choice not in operations:
+            print("Недопустимый выбор. Пожалуйста, выберите номер операции или введите 'exit'.")
+            continue
+
+        try:
+            if choice == "4":
+                a = float(input("Введите делимое: "))
+                b = float(input("Введите делитель: "))
+                mode = input("Выберите деления (full, remainder, integer): ")
+                print(f"{a} {mode} {b} = {operations[choice]['func'](a, b, mode)}")
+            elif choice == "6":
+                n = int(input("Введите число для вычисления факториала: "))
+                print(f"Факториал {n} = {operations[choice]['func'](n)}")
+            elif choice == "7":
+                a = float(input("Введите число для вычисления квадратного корня: "))
+                print(f"Квадратный корень из {a} = {operations[choice]['func'](a)}")
+                a = float(input("Введите первое число: "))
+                b = float(input("Введите второе число: "))
+                print(f"{a} {operations[choice]['name']} {b} = {operations[choice]['func'](a, b)}")
+        except Exception as e:
+            print(f"Ошибка: {e}")
+
+if __name__ == "__main__":
+    main()
